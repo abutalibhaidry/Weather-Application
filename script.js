@@ -18,7 +18,7 @@ const currentDataTxt = document.querySelector('.current-data-txt')
 const forecastItemsContainer = document.querySelector('.forecast-items-container')
 
 
-const apikey = 'f75695994bcb29cb4cccaca2b668b545'
+const apiKey = 'f75695994bcb29cb4cccaca2b668b545'
 
 searchBtn.addEventListener('click', () => {
     if(cityInput.value.trim() != '') {
@@ -47,7 +47,7 @@ cityInput.addEventListener('keydown', (event) => {
 // }
 async function getFetchData(endPoint, city) {
     try {
-        const apiUrl = `https://api.openweathermap.org/data/2.5/${endPoint}?q=${city}&appid=${apikey}&units=metric`
+        const apiUrl = `https://api.openweathermap.org/data/2.5/${endPoint}?q=${city}&appid=${apiKey}&units=metric`
         const response = await fetch(apiUrl);
         
         if (!response.ok) {
