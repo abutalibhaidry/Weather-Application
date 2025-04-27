@@ -18,7 +18,7 @@ const currentDataTxt = document.querySelector('.current-data-txt')
 const forecastItemsContainer = document.querySelector('.forecast-items-container')
 
 
-const apiKey = 'f75695994bcb29cb4cccaca2b668b545'
+const apikey = 'f75695994bcb29cb4cccaca2b668b545'
 
 searchBtn.addEventListener('click', () => {
     if(cityInput.value.trim() != '') {
@@ -38,12 +38,27 @@ cityInput.addEventListener('keydown', (event) => {
     }
 })
 
+// async function getFetchData(endPoint, city) {
+//     const apiUrl = `https://api.openweathermap.org/data/2.5/${endPoint}?q=${city}&appid=${apikey}&units=metric`
+
+//     const response = await fetch(apiUrl)
+
+//     return response.json()
+// }
 async function getFetchData(endPoint, city) {
-    const apiUrl = `https://api.openweathermap.org/data/2.5/${endPoint}?q=${city}&appid=${apiKey}&units=metric`
+    try {
+        const apiUrl = `https://api.openweathermap.org/data/2.5/${endPoint}?q=${city}&appid=${apikey}&units=metric`
+        const response = await fetch(apiUrl);
+        
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
 
-    const response = await fetch(apiUrl)
-
-    return response.json()
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return { cod: 404 }; // Return a failure response to handle errors
+    }
 }
 
 function getWeatherIcon(id) {
