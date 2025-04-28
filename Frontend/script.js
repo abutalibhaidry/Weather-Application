@@ -18,8 +18,6 @@ const currentDataTxt = document.querySelector('.current-data-txt')
 const forecastItemsContainer = document.querySelector('.forecast-items-container')
 
 
-const apiKey = 'f75695994bcb29cb4cccaca2b668b545'
-
 searchBtn.addEventListener('click', () => {
     if(cityInput.value.trim() != '') {
         updateWeatherInfo(cityInput.value)
@@ -45,11 +43,33 @@ cityInput.addEventListener('keydown', (event) => {
 
 //     return response.json()
 // }
+// async function getFetchData(endPoint, city) {
+//     try {
+//         const apiUrl = `https://api.openweathermap.org/data/2.5/${endPoint}?q=${city}&appid=${apiKey}&units=metric`
+//         const response = await fetch(apiUrl);
+        
+//         if (!response.ok) {
+//             throw new Error('Network response was not ok');
+//         }
+
+//         return await response.json();
+//     } catch (error) {
+//         console.error('Error fetching data:', error);
+//         return { cod: 404 }; // Return a failure response to handle errors
+//     }
+// }
+
 async function getFetchData(endPoint, city) {
     try {
-        const apiUrl = `https://api.openweathermap.org/data/2.5/${endPoint}?q=${city}&appid=${apiKey}&units=metric`
+        let apiUrl;
+        if (endPoint === 'weather') {
+            apiUrl = `https://your-backend-url.vercel.app/weather?city=${city}`;
+        } else if (endPoint === 'forecast') {
+            apiUrl = `https://your-backend-url.vercel.app/forecast?city=${city}`;
+        }
+
         const response = await fetch(apiUrl);
-        
+
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
@@ -57,7 +77,7 @@ async function getFetchData(endPoint, city) {
         return await response.json();
     } catch (error) {
         console.error('Error fetching data:', error);
-        return { cod: 404 }; // Return a failure response to handle errors
+        return { cod: 404 }; // fallback error
     }
 }
 
